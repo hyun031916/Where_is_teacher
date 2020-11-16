@@ -2,7 +2,7 @@ import sys
 from PyQt5.QtWidgets import *
 
 app = QApplication(sys.argv)
-label = QLabel("Hello, PyQt")
+label = QLabel("연동 성공")
 label.show()
 
 print("Before event loop")
