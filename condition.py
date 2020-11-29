@@ -1,16 +1,18 @@
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-from PyQt5 improt uic
+from PyQt5 import uic
 
 import pymysql
-
-#UI 파일 연결
-form_class = uic.loadUiType("status_window.ui")
-
-
+from datetime import date
+import calendar
+from time import localtime, strftime
 
 #모듈 불러오기
+
+my_date = date.today()
+day = calendar.day_name[my_date.weekday()]
+print(day)
 
 conn = pymysql.connect(host="127.0.0.1", port=3307, user='root', password='1111', db='python', charset="utf8")
 
@@ -24,44 +26,42 @@ for row in rows:
     print(row)
     print(row['name'])
 conn.close()
-class MyApp(QWidget):
 
-    def __init__(self):
+
+#UI 파일 연결
+form_class = uic.loadUiType("status_window.ui")[0]
+
+#화면을 띄우는데 사용되는 Class 선언
+class StatusClass(QMainWindow, form_class) :
+    schedule = ""
+    my_date = date.today()
+    day = calendar.day_name[my_date.weekday()]
+    print(day)
+    def __init__(self) :
         super().__init__()
-        self.initUI()
+        self.setupUi(self)
+
+        self.teacherName.setText(row['name']+"선생님")
+        self.editStatus.clicked.connect(self.statusBar)
+
+    def statusBar(self):
+        strtime = strftime("%H%M", localtime())
+        print(strtime)
+        self.schedule+=day
 
 
-    def initUI(self):
-        #label
-        label1 = QLabel(row['name']+'선생님', self)
-        label1.setAlignment(Qt.AlignVCenter)
-
-        label2 = QLabel('선생님', self)
-        font1 = label1.font()
-        font1.setPointSize(20)
-        label1.setFont(font1)
-
-        layout = QVBoxLayout()
-        layout.addWidget(label1)
-
-        btn1 = QPushButton("닫기", self)
-        btn1.move(20, 20)
-        btn1.clicked.connect(QCoreApplication.instance().quit)
-
-        self.setLayout(layout)
-
-        #창의 제목
-        self.setWindowTitle('선생님 상태')
-        #위젯을 스크린의 x, y 위치로 이동
-        self.move(300, 300)
-        #위젯 크기를 너비, 높이로 조절
-        self.resize(400, 200)
-        #위젯을 스크린에 보여줌
-        self.show()
 
 
 
 if __name__ == '__main__':
+    # QApplication : 프로그램을 실행시켜주는 클래스
     app = QApplication(sys.argv)
-    ex = MyApp()
-    sys.exit(app.exec_())
+
+    # StatusClass의 인스턴스 생성
+    statusWindow = StatusClass()
+
+    # 프로그램 화면을 보여주는 코드
+    statusWindow.show()
+
+    # 프로그램을 이벤트루프로 진입시키는(프로그램을 작동시키는) 코드
+    app.exec_()
