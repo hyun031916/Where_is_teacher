@@ -14,8 +14,8 @@ my_date = date.today()
 day = calendar.day_name[my_date.weekday()]
 print(day)
 
-conn = pymysql.connect(host="192.168.0.9", port=3307, user='newuser', password='zxcdsaqwe7845', db='python', charset="utf8")
-#conn = pymysql.connect(host="localhost", port=3307, user='root', password='1111', db='python', charset="utf8")
+# conn = pymysql.connect(host="192.168.0.9", port=3307, user='newuser', password='zxcdsaqwe7845', db='python', charset="utf8")
+conn = pymysql.connect(host="localhost", port=3307, user='root', password='1111', db='python', charset="utf8")
 curs = conn.cursor(pymysql.cursors.DictCursor)
 
 # sql = "select t.name from tschedule AS t JOIN teacherseat AS tch WHERE t.id = tch.teacher"
@@ -85,11 +85,20 @@ class StatusClass(QDialog, form_class) :
         elif(106<strtime):
             self.schedule += day + "3"
 
+        mycursor = conn.cursor()
+        sql2 = "UPDATE teacherseat set status=%s where seatnum = %s"
+
         if(row[self.schedule] == None):
             self.status.setText("자리에 있음")
             print(row[self.schedule])
-        else :
+            data = (1, seatnum)
+            mycursor.execute(sql2, data)
+        else:
             self.status.setText(row[self.schedule])
+            data = (0, seatnum)
+            mycursor.execute(sql2, data)
+
+        conn.commit()
 
 # if _name_ == '_main_':
 #     # QApplication : 프로그램을 실행시켜주는 클래스
