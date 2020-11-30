@@ -37,21 +37,20 @@ class StatusClass(QDialog, form_class) :
     my_date = date.today()
     day = calendar.day_name[my_date.weekday()]
     print(day)
-    def __init__(self) :
+    def __init__(self, seatnum) :
         super().__init__()
         self.setupUi(self)
         self.seatnum = 0
         sql = "select * from tschedule AS t JOIN teacherseat AS tch WHERE tch.seatnum = %s and tch.teacher = t.id"
-        curs.execute(sql, (self.seatnum))
-        print(self.seatnum)
+        curs.execute(sql, (seatnum))
+        print(seatnum)
         rows = curs.fetchall()
         for row in rows:
-            print(row['t.name'])
+            print(row['name'])
         print(rows)
-        conn.close()
-        self.teacherName.setText(row['t.name']+"선생님")
-        #self.status.setText(self.statusBar)
-        self.statusBar()
+        self.teacherName.setText(row['name']+"선생님")
+        # self.status.setText(self.statusBar)
+        self.statusBar(seatnum)
 
     def setSeatNum(self, seatnum):
         self.seatnum = seatnum
@@ -59,7 +58,15 @@ class StatusClass(QDialog, form_class) :
     def ontimeout(self):
         print(self.seatnum)
 
-    def statusBar(self):
+    def statusBar(self, seatnum):
+        sql = "select * from tschedule AS t JOIN teacherseat AS tch WHERE tch.seatnum = %s and tch.teacher = t.id"
+        curs.execute(sql, (seatnum))
+        print(seatnum)
+        rows = curs.fetchall()
+        for row in rows:
+            print(row['name'])
+        print(rows)
+
         strtime = int(strftime("%H%M", localtime()))
         if(910<= strtime <= 950):
             self.schedule+=day+"1"
@@ -75,12 +82,23 @@ class StatusClass(QDialog, form_class) :
             self.schedule += day + "6"
         elif (1510 <= strtime <=1550):
             self.schedule += day + "7"
-        elif(252<strtime):
+        elif(106<strtime):
             self.schedule += day + "3"
 
-        print(row[self.schedule])
+        mycursor = conn.cursor()
+        sql2 = "UPDATE teacherseat set status=%s where seatnum = %s"
 
-        self.status.setText(row[self.schedule])
+        if(row[self.schedule] == None):
+            self.status.setText("자리에 있음")
+            print(row[self.schedule])
+            data = (1, seatnum)
+            mycursor.execute(sql2, data)
+        else:
+            self.status.setText(row[self.schedule])
+            data = (0, seatnum)
+            mycursor.execute(sql2, data)
+
+        conn.commit()
 
 # if __name__ == '__main__':
 #     # QApplication : 프로그램을 실행시켜주는 클래스

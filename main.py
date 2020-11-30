@@ -10,7 +10,8 @@ from condition import StatusClass
 main_ui = uic.loadUiType("start.ui")[0]
 #option_ui = uic.loadUiType("status.ui")[0]
 
-conn = pymysql.connect(host="192.168.0.9", port=3307, user='newuser', password='zxcdsaqwe7845', db='python', charset="utf8")
+# conn = pymysql.connect(host="192.168.0.9", port=3307, user='newuser', password='zxcdsaqwe7845', db='python', charset="utf8")
+conn = pymysql.connect(host="localhost", port=3307, user='root', password='1111', db='python', charset="utf8")
 curs = conn.cursor(pymysql.cursors.DictCursor)
 
 #화면을 띄우는데 사용되는 Class 선언
@@ -48,8 +49,7 @@ class WindowClass(QMainWindow, main_ui):
         self.showStatus(seatnum)
 
     def showStatus(self,seatnum):
-        self.statusWindow = StatusClass()
-        self.statusWindow.setSeatNum(seatnum)
+        self.statusWindow = StatusClass(seatnum)
         self.statusWindow.show()
 
 if __name__ == "__main__" :
