@@ -36,15 +36,12 @@ class StatusClass(QDialog, form_class) :
     my_date = date.today()
     day = calendar.day_name[my_date.weekday()]
     print(day)
-    def __init__(self) :
+    def __init__(self, seatnum) :
         super().__init__()
         self.setupUi(self)
-        self.seatnum = 0
+        self.seatnum = seatnum
         self.teacherName.setText(row['name']+"선생님")
         self.editStatus.clicked.connect(self.statusBar)
-
-    def setSeatNum(self, seatnum):
-        self.seatnum = seatnum
 
     def ontimeout(self):
         print(self.seatnum)

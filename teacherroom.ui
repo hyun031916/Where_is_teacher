@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>이철호</string>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_4">
@@ -37,7 +37,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>이철호</string>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_3">
@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>이철호</string>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_2">
@@ -63,7 +63,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>이철호</string>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_7">
@@ -76,7 +76,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>이철호</string>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_5">
@@ -89,7 +89,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>이철호</string>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_6">
@@ -102,7 +102,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>이철호</string>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_9">
@@ -115,7 +115,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>이철호</string>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_8">
@@ -128,7 +128,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>이철호</string>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_11">
@@ -141,7 +141,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>이철호</string>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_10">
@@ -154,7 +154,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>이철호</string>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_13">
@@ -167,7 +167,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>이철호</string>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_12">
@@ -180,7 +180,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>이철호</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_8">
@@ -193,7 +193,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>김현수</string>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_16">
@@ -206,7 +206,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>이철호</string>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_14">
@@ -219,7 +219,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>이철호</string>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_18">
@@ -232,7 +232,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>이철호</string>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_17">
@@ -245,7 +245,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>이철호</string>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_19">
@@ -258,7 +258,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>이철호</string>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_15">
@@ -271,7 +271,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>이철호</string>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_20">
@@ -284,7 +284,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>이철호</string>
     </property>
    </widget>
   </widget>
