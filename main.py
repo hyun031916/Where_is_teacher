@@ -1,4 +1,5 @@
 import sys
+import pymysql
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5 import uic
@@ -9,25 +10,37 @@ from condition import StatusClass
 main_ui = uic.loadUiType("start.ui")[0]
 #option_ui = uic.loadUiType("status.ui")[0]
 
+conn = pymysql.connect(host="192.168.0.9", port=3307, user='newuser', password='zxcdsaqwe7845', db='python', charset="utf8")
+curs = conn.cursor(pymysql.cursors.DictCursor)
+
 #화면을 띄우는데 사용되는 Class 선언
 class WindowClass(QMainWindow, main_ui):
+    window = 0
     def __init__(self) :
         super().__init__()
         self.setupUi(self)
-        # self.__timer = QTimer()
-        # self.__timer.timeout.connect(self.ontimeout)
-        # self.__timer.start(1000)
         self.startButton.clicked.connect(self.showTeacherRoom)
 
         #self.pushButton_3.move(100,100)
+    def ontimeout(self):
+        print('hello')
+        self.repaint()
 
     def showTeacherRoom(self):
         main_ui = uic.loadUi("teacherroom.ui", self)
         self.seat_1.clicked.connect(self.statusButtonClicked1)
+        #self.seat_1.setText()
         self.seat_2.clicked.connect(self.statusButtonClicked1)
         self.seat_3.clicked.connect(self.statusButtonClicked1)
         self.seat_4.clicked.connect(self.statusButtonClicked1)
         self.seat_5.clicked.connect(self.statusButtonClicked1)
+        self.__timer = QTimer()
+        self.__timer.timeout.connect(self.ontimeout)
+        self.__timer.start(1000)
+
+    def setUI(self):
+        sql = "select * from tschedule where id = %s"
+        curs.execute(sql, (1))
 
     def statusButtonClicked1(self):
         seat = str(self.sender().objectName()).split('_')
