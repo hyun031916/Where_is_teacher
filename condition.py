@@ -42,12 +42,31 @@ class StatusClass(QMainWindow, form_class) :
         self.setupUi(self)
 
         self.teacherName.setText(row['name']+"선생님")
-        self.editStatus.clicked.connect(self.statusBar)
+        #self.status.setText(self.statusBar)
+        self.statusBar()
 
     def statusBar(self):
-        strtime = strftime("%H%M", localtime())
-        print(strtime)
-        self.schedule+=day
+        strtime = int(strftime("%H%M", localtime()))
+        if(910<= strtime <= 950):
+            self.schedule+=day+"1"
+        elif(1000 <= strtime <= 1040):
+            self.schedule+=day+"2"
+        elif (1050 <= strtime <= 1130):
+            self.schedule += day + "3"
+        elif (1140 <= strtime <= 1220):
+            self.schedule += day + "4"
+        elif (1330 <= strtime <= 1410):
+            self.schedule += day + "5"
+        elif (1420 <= strtime <= 1500):
+            self.schedule += day + "6"
+        elif (1510 <= strtime <=1550):
+            self.schedule += day + "7"
+        elif(252<strtime):
+            self.schedule += day + "3"
+
+        print(row[self.schedule])
+
+        self.status.setText(row[self.schedule])
 
 
 
