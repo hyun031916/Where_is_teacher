@@ -14,17 +14,18 @@ my_date = date.today()
 day = calendar.day_name[my_date.weekday()]
 print(day)
 
-conn = pymysql.connect(host="192.168.0.9", port=3307, user='newuser', password='zxcdsaqwe7845', db='python', charset="utf8")
+# conn = pymysql.connect(host="192.168.0.9", port=3307, user='newuser', password='zxcdsaqwe7845', db='python', charset="utf8")
+conn = pymysql.connect(host="localhost", port=3307, user='root', password='1111', db='python', charset="utf8")
 curs = conn.cursor(pymysql.cursors.DictCursor)
 
-sql = "select * from tschedule where id = %s"
-curs.execute(sql, (1))
-
-rows = curs.fetchall()
-for row in rows:
-    print(row)
-    print(row['name'])
-conn.close()
+# sql = "select t.name from tschedule AS t JOIN teacherseat AS tch WHERE t.id = tch.teacher"
+# curs.execute(sql, (1))
+#
+# rows = curs.fetchall()
+# for row in rows:
+#     print(row)
+#     print(row['name'])
+# conn.close()
 
 
 #UI 파일 연결
@@ -40,7 +41,15 @@ class StatusClass(QDialog, form_class) :
         super().__init__()
         self.setupUi(self)
         self.seatnum = 0
-        self.teacherName.setText(row['name']+"선생님")
+        sql = "select * from tschedule AS t JOIN teacherseat AS tch WHERE tch.seatnum = %s and tch.teacher = t.id"
+        curs.execute(sql, (self.seatnum))
+        print(self.seatnum)
+        rows = curs.fetchall()
+        for row in rows:
+            print(row['t.name'])
+        print(rows)
+        conn.close()
+        self.teacherName.setText(row['t.name']+"선생님")
         #self.status.setText(self.statusBar)
         self.statusBar()
 
