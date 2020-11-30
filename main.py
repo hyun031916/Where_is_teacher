@@ -29,18 +29,53 @@ class WindowClass(QMainWindow, main_ui):
     def showTeacherRoom(self):
         main_ui = uic.loadUi("teacherroom.ui", self)
         self.seat_1.clicked.connect(self.statusButtonClicked1)
-        self.seat_1.setText()
+        self.seat_1.setText(self.getTeacherName(1))
+        self.seat_1.setStyleSheet(self.getStatusColor(1))
         self.seat_2.clicked.connect(self.statusButtonClicked1)
+        self.seat_2.setText(self.getTeacherName(2))
+        self.seat_2.setStyleSheet(self.getStatusColor(2))
         self.seat_3.clicked.connect(self.statusButtonClicked1)
+        self.seat_3.setText(self.getTeacherName(3))
+        self.seat_3.setStyleSheet(self.getStatusColor(3))
         self.seat_4.clicked.connect(self.statusButtonClicked1)
+        self.seat_4.setText(self.getTeacherName(4))
+        self.seat_4.setStyleSheet(self.getStatusColor(4))
         self.seat_5.clicked.connect(self.statusButtonClicked1)
+        self.seat_5.setText(self.getTeacherName(5))
+        self.seat_5.setStyleSheet(self.getStatusColor(5))
+        self.seat_6.clicked.connect(self.statusButtonClicked1)
+        self.seat_6.setText(self.getTeacherName(6))
+        self.seat_6.setStyleSheet(self.getStatusColor(6))
+        self.seat_7.clicked.connect(self.statusButtonClicked1)
+        self.seat_7.setText(self.getTeacherName(7))
+        self.seat_7.setStyleSheet(self.getStatusColor(7))
         self.__timer = QTimer()
         self.__timer.timeout.connect(self.ontimeout)
         self.__timer.start(1000)
 
-    def setUI(self):
-        sql = "select * from tschedule where id = %s"
-        curs.execute(sql, (1))
+    def getTeacherName(self, seatnum):
+        sql = "select * from tschedule AS t JOIN teacherseat AS tch WHERE tch.seatnum = %s and tch.teacher = t.id"
+        curs.execute(sql, (seatnum))
+
+        rows = curs.fetchall()
+        for row in rows:
+            return row['name']
+
+    def getStatusColor(self, seatnum):
+        str = "background-color: "
+        sql = "select * from teacherseat where seatnum = %s"
+        curs.execute(sql, (seatnum))
+
+        rows = curs.fetchall()
+        for row in rows:
+            if row['status'] == 1:
+                str += "lightgreen"
+            elif row['status'] == 0:
+                str += "red"
+        print(str)
+        return str
+        conn.close()
+
 
     def statusButtonClicked1(self):
         seat = str(self.sender().objectName()).split('_')

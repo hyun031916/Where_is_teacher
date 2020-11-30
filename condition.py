@@ -15,16 +15,17 @@ day = calendar.day_name[my_date.weekday()]
 print(day)
 
 conn = pymysql.connect(host="192.168.0.9", port=3307, user='newuser', password='zxcdsaqwe7845', db='python', charset="utf8")
+#conn = pymysql.connect(host="localhost", port=3307, user='root', password='1111', db='python', charset="utf8")
 curs = conn.cursor(pymysql.cursors.DictCursor)
 
-sql = "select * from tschedule where id = %s"
-curs.execute(sql, (1))
-
-rows = curs.fetchall()
-for row in rows:
-    print(row)
-    print(row['name'])
-conn.close()
+# sql = "select t.name from tschedule AS t JOIN teacherseat AS tch WHERE t.id = tch.teacher"
+# curs.execute(sql, (1))
+#
+# rows = curs.fetchall()
+# for row in rows:
+#     print(row)
+#     print(row['name'])
+# conn.close()
 
 
 #UI 파일 연결
@@ -36,12 +37,20 @@ class StatusClass(QDialog, form_class) :
     my_date = date.today()
     day = calendar.day_name[my_date.weekday()]
     print(day)
-    def __init__(self) :
+    def __init__(self, seatnum) :
         super().__init__()
         self.setupUi(self)
         self.seatnum = 0
+        sql = "select * from tschedule AS t JOIN teacherseat AS tch WHERE tch.seatnum = %s and tch.teacher = t.id"
+        curs.execute(sql, (seatnum))
+        print(seatnum)
+        rows = curs.fetchall()
+        for row in rows:
+            print(row['name'])
+        print(rows)
         self.teacherName.setText(row['name']+"선생님")
-        self.editStatus.clicked.connect(self.statusBar)
+        # self.status.setText(self.statusBar)
+        self.statusBar(seatnum)
 
     def setSeatNum(self, seatnum):
         self.seatnum = seatnum
@@ -49,12 +58,40 @@ class StatusClass(QDialog, form_class) :
     def ontimeout(self):
         print(self.seatnum)
 
-    def statusBar(self):
-        strtime = strftime("%H%M", localtime())
-        print(strtime)
-        self.schedule+=day
+    def statusBar(self, seatnum):
+        sql = "select * from tschedule AS t JOIN teacherseat AS tch WHERE tch.seatnum = %s and tch.teacher = t.id"
+        curs.execute(sql, (seatnum))
+        print(seatnum)
+        rows = curs.fetchall()
+        for row in rows:
+            print(row['name'])
+        print(rows)
 
-# if __name__ == '__main__':
+        strtime = int(strftime("%H%M", localtime()))
+        if(910<= strtime <= 950):
+            self.schedule+=day+"1"
+        elif(1000 <= strtime <= 1040):
+            self.schedule+=day+"2"
+        elif (1050 <= strtime <= 1130):
+            self.schedule += day + "3"
+        elif (1140 <= strtime <= 1220):
+            self.schedule += day + "4"
+        elif (1330 <= strtime <= 1410):
+            self.schedule += day + "5"
+        elif (1420 <= strtime <= 1500):
+            self.schedule += day + "6"
+        elif (1510 <= strtime <=1550):
+            self.schedule += day + "7"
+        elif(106<strtime):
+            self.schedule += day + "3"
+
+        if(row[self.schedule] == None):
+            self.status.setText("자리에 있음")
+            print(row[self.schedule])
+        else :
+            self.status.setText(row[self.schedule])
+
+# if _name_ == '_main_':
 #     # QApplication : 프로그램을 실행시켜주는 클래스
 #     app = QApplication(sys.argv)
 #
