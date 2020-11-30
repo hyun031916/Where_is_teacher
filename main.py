@@ -30,7 +30,7 @@ class WindowClass(QMainWindow, main_ui):
     def showTeacherRoom(self):
         main_ui = uic.loadUi("teacherroom.ui", self)
         self.seat_1.clicked.connect(self.statusButtonClicked1)
-        #self.seat_1.setText()
+        self.seat_1.setText()
         self.seat_2.clicked.connect(self.statusButtonClicked1)
         self.seat_3.clicked.connect(self.statusButtonClicked1)
         self.seat_4.clicked.connect(self.statusButtonClicked1)
