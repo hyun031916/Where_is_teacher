@@ -1,35 +1,50 @@
-import sys, os
+import sys
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import *
+from PyQt5 import uic
+from condition import StatusClass
 
-dir = os.path.dirname(os.getcwd())
+#UI파일 연결
+#단, UI파일은 Python 코드 파일과 같은 디렉토리에 위치해야한다.
+main_ui = uic.loadUiType("start.ui")[0]
+#option_ui = uic.loadUiType("status.ui")[0]
 
-class Example(QWidget):
-
-    def __init__(self):
+#화면을 띄우는데 사용되는 Class 선언
+class WindowClass(QMainWindow, main_ui):
+    def __init__(self) :
         super().__init__()
-        self.initUI()
+        self.setupUi(self)
+        # self.__timer = QTimer()
+        # self.__timer.timeout.connect(self.ontimeout)
+        # self.__timer.start(1000)
+        self.startButton.clicked.connect(self.showTeacherRoom)
 
-    def initUI(self):
-        exit = QAction(QIcon(dir+'/Images/delete.png'),'&Exit',self)
-        exit.setShortcut('Ctrl+e')
-        exit.setStatusTip('Exit application')
-        exit.triggered.connect(QApplication.quit())
+        #self.pushButton_3.move(100,100)
 
-        self.statusBar()
+    def showTeacherRoom(self):
+        main_ui = uic.loadUi("teacherroom.ui", self)
+        self.seat_1.clicked.connect(self.statusButtonClicked1)
+        self.seat_2.clicked.connect(self.statusButtonClicked1)
+        self.seat_3.clicked.connect(self.statusButtonClicked1)
+        self.seat_4.clicked.connect(self.statusButtonClicked1)
+        self.seat_5.clicked.connect(self.statusButtonClicked1)
 
-        menubar = self.menuBar()
-        fileMenu = menubar.addMenu('&File')
-        fileMenu.addAction(exit)
+    def statusButtonClicked1(self):
+        seat = str(self.sender().objectName()).split('_')
+        seatnum = seat[-1]
+        self.showStatus(seatnum)
 
-        self.show()
+    def showStatus(self,seatnum):
+        self.statusWindow = StatusClass()
+        self.statusWindow.setSeatNum(seatnum)
+        self.statusWindow.show()
 
-if __name__ == '__main__':
+if __name__ == "__main__" :
+    #QApplication : 프로그램을 실행시켜주는 클래스
     app = QApplication(sys.argv)
-    ex = Example()
-    screen = app.primaryScreen()
-    size = screen.size()
-    w, h = 300,300
-    ex.setGeometry(size.width()/2-w/2, size.height()/2-h/2,w,h)
-    sys.exit(app.exec_())
+    #WindowClass의 인스턴스 생성
+    main_window = WindowClass()
+    #프로그램 화면을 보여주는 코드
+    main_window.show()
+    #프로그램을 이벤트루프로 진입시키는(프로그램을 작동시키는) 코드
+    app.exec_()
