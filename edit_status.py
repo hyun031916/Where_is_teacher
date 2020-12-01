@@ -9,8 +9,8 @@ import calendar
 from time import localtime, strftime
 
 
-# conn = pymysql.connect(host="192.168.0.9", port=3307, user='newuser', password='zxcdsaqwe7845', db='python', charset="utf8")
-conn = pymysql.connect(host="localhost", port=3307, user='root', password='1111', db='python', charset="utf8")
+conn = pymysql.connect(host="192.168.0.9", port=3307, user='newuser', password='zxcdsaqwe7845', db='python', charset="utf8")
+# conn = pymysql.connect(host="localhost", port=3307, user='root', password='1111', db='python', charset="utf8")
 curs = conn.cursor(pymysql.cursors.DictCursor)
 
 
