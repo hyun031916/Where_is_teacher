@@ -7,6 +7,7 @@ import pymysql
 from datetime import date
 import calendar
 from time import localtime, strftime
+from edit_status import EditStatusClass
 
 #모듈 불러오기
 
@@ -15,7 +16,7 @@ day = calendar.day_name[my_date.weekday()]
 print(day)
 
 conn = pymysql.connect(host="192.168.0.9", port=3307, user='newuser', password='zxcdsaqwe7845', db='python', charset="utf8")
-#conn = pymysql.connect(host="localhost", port=3307, user='root', password='1111', db='python', charset="utf8")
+# conn = pymysql.connect(host="localhost", port=3307, user='root', password='1111', db='python', charset="utf8")
 curs = conn.cursor(pymysql.cursors.DictCursor)
 
 # sql = "select t.name from tschedule AS t JOIN teacherseat AS tch WHERE t.id = tch.teacher"
@@ -29,28 +30,31 @@ curs = conn.cursor(pymysql.cursors.DictCursor)
 
 
 #UI 파일 연결
-form_class = uic.loadUiType("status_window.ui")[0]
+status_ui = uic.loadUiType("status_window.ui")[0]
 
 #화면을 띄우는데 사용되는 Class 선언
-class StatusClass(QDialog, form_class) :
+class StatusClass(QDialog, status_ui) :
     schedule = ""
     my_date = date.today()
     day = calendar.day_name[my_date.weekday()]
     print(day)
+    seat = 0
     def __init__(self, seatnum) :
         super().__init__()
         self.setupUi(self)
         self.seatnum = 0
+
         sql = "select * from tschedule AS t JOIN teacherseat AS tch WHERE tch.seatnum = %s and tch.teacher = t.id"
         curs.execute(sql, (seatnum))
         print(seatnum)
         rows = curs.fetchall()
         for row in rows:
-            print(row['name'])
-        print(rows)
+            pass
         self.teacherName.setText(row['name']+"선생님")
         # self.status.setText(self.statusBar)
         self.statusBar(seatnum)
+        self.seat = seatnum
+        self.editStatus.clicked.connect(self.editStatusButtonClicked)
 
     def setSeatNum(self, seatnum):
         self.seatnum = seatnum
@@ -100,7 +104,14 @@ class StatusClass(QDialog, form_class) :
 
         conn.commit()
 
-# if _name_ == '_main_':
+    def editStatusButtonClicked(self):
+        self.showStatus()
+
+    def showStatus(self):
+        self.statusWindow = EditStatusClass(self.seat)
+        self.statusWindow.show()
+
+# if _name_ == 'main':
 #     # QApplication : 프로그램을 실행시켜주는 클래스
 #     app = QApplication(sys.argv)
 #

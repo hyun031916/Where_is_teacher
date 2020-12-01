@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>이철호</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_4">
@@ -37,7 +37,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>이철호</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_3">
@@ -50,7 +50,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>이철호</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_2">
@@ -63,7 +63,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>이철호</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_7">
@@ -76,7 +76,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>이철호</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_5">
@@ -89,7 +89,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>이철호</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_6">
@@ -102,7 +102,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>이철호</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_9">
@@ -115,7 +115,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>이철호</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_8">
@@ -128,7 +128,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>이철호</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="seat_11">
