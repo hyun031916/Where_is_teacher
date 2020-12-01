@@ -22,14 +22,20 @@ curs = conn.cursor(pymysql.cursors.DictCursor)
 class WindowClass(QMainWindow, main_ui):
     def __init__(self) :
         super().__init__()
+        self.reset = 0 # 상태 초기화 여부
         self.__timer = QTimer()
+        self.statusBar()
         self.setupUi(self)
+        self.reset = 1
         self.startButton.clicked.connect(self.showTeacherRoom1)
 
         #self.pushButton_3.move(100,100)
 
     def showTeacherRoom1(self):
-        self.statusBar()
+        strtime = int(strftime("%H%M", localtime()))
+        if strtime == 910 or 950 or 1000 or 1040 or 1050 or 1130 or 1140 or 1220 or 1330 or 1410 or 1420 or 1500 or 1510 or 1550:  # 테스트떄 수정
+            self.statusBar()
+
         main_ui = uic.loadUi("teacherroom1.ui", self)
         self.leftButton.clicked.connect(self.showTeacherRoom2)
         self.rightButton.clicked.connect(self.showTeacherRoom2)
@@ -58,50 +64,96 @@ class WindowClass(QMainWindow, main_ui):
         self.seat_8.clicked.connect(self.statusButtonClicked1)
         self.seat_8.setText(self.getTeacherName(8))
         self.seat_8.setStyleSheet(self.getStatusColor(8))
-        #self.__timer.stop()
+        self.seat_9.clicked.connect(self.statusButtonClicked1)
+        self.seat_9.setText(self.getTeacherName(9))
+        self.seat_9.setStyleSheet(self.getStatusColor(9))
+        self.seat_10.clicked.connect(self.statusButtonClicked1)
+        self.seat_10.setText(self.getTeacherName(10))
+        self.seat_10.setStyleSheet(self.getStatusColor(10))
+        self.seat_11.setText(self.getTeacherName(11))
+        self.seat_11.setStyleSheet(self.getStatusColor(11))
+        self.seat_12.clicked.connect(self.statusButtonClicked1)
+        self.seat_12.setText(self.getTeacherName(12))
+        self.seat_12.setStyleSheet(self.getStatusColor(12))
+        self.seat_13.clicked.connect(self.statusButtonClicked1)
+        self.seat_13.setText(self.getTeacherName(13))
+        self.seat_13.setStyleSheet(self.getStatusColor(13))
+        self.seat_14.clicked.connect(self.statusButtonClicked1)
+        self.seat_14.setText(self.getTeacherName(14))
+        self.seat_14.setStyleSheet(self.getStatusColor(14))
+        self.seat_15.clicked.connect(self.statusButtonClicked1)
+        self.seat_15.setText(self.getTeacherName(15))
+        self.seat_15.setStyleSheet(self.getStatusColor(15))
+        self.seat_16.clicked.connect(self.statusButtonClicked1)
+        self.seat_16.setText(self.getTeacherName(16))
+        self.seat_16.setStyleSheet(self.getStatusColor(16))
+        self.seat_17.clicked.connect(self.statusButtonClicked1)
+        self.seat_17.setText(self.getTeacherName(17))
+        self.seat_17.setStyleSheet(self.getStatusColor(17))
+        self.seat_18.clicked.connect(self.statusButtonClicked1)
+        self.seat_18.setText(self.getTeacherName(18))
+        self.seat_18.setStyleSheet(self.getStatusColor(18))
+        self.seat_19.clicked.connect(self.statusButtonClicked1)
+        self.seat_19.setText(self.getTeacherName(19))
+        self.seat_19.setStyleSheet(self.getStatusColor(19))
+        self.seat_20.clicked.connect(self.statusButtonClicked1)
+        self.seat_20.setText(self.getTeacherName(20))
+        self.seat_20.setStyleSheet(self.getStatusColor(20))
+        self.__timer.stop()
         self.__timer = QTimer()
         self.__timer.timeout.connect(self.showTeacherRoom1)
         self.__timer.start(1000)
 
     def showTeacherRoom2(self):
-        self.statusBar()
+        strtime = int(strftime("%H%M", localtime()))
+        if strtime == 910 or 950 or 1000 or 1040 or 1050 or 1130 or 1140 or 1220 or 1330 or 1410 or 1420 or 1500 or 1510 or 1550: # 테스트떄 수정
+            self.statusBar()
+
         main_ui = uic.loadUi("teacherroom2.ui", self)
 
         self.leftButton1.clicked.connect(self.showTeacherRoom1)
         self.rightButton1.clicked.connect(self.showTeacherRoom1)
 
-        # self.seat_21.clicked.connect(self.statusButtonClicked1)
-        # self.seat_21.setText(self.getTeacherName(1))
-        # self.seat_21.setStyleSheet(self.getStatusColor(1))
-        # self.seat_22.clicked.connect(self.statusButtonClicked1)
-        # self.seat_22.setText(self.getTeacherName(2))
-        # self.seat_22.setStyleSheet(self.getStatusColor(2))
-        # self.seat_23.clicked.connect(self.statusButtonClicked1)
-        # self.seat_23.setText(self.getTeacherName(3))
-        # self.seat_23.setStyleSheet(self.getStatusColor(3))
-        # self.seat_24.clicked.connect(self.statusButtonClicked1)
-        # self.seat_24.setText(self.getTeacherName(4))
-        # self.seat_24.setStyleSheet(self.getStatusColor(4))
-        # self.seat_25.clicked.connect(self.statusButtonClicked1)
-        # self.seat_25.setText(self.getTeacherName(5))
-        # self.seat_25.setStyleSheet(self.getStatusColor(5))
-        # self.seat_26.clicked.connect(self.statusButtonClicked1)
-        # self.seat_26.setText(self.getTeacherName(6))
-        # self.seat_26.setStyleSheet(self.getStatusColor(6))
-        # self.seat_27.clicked.connect(self.statusButtonClicked1)
-        # self.seat_27.setText(self.getTeacherName(7))
-        # self.seat_27.setStyleSheet(self.getStatusColor(7))
+        self.seat_21.clicked.connect(self.statusButtonClicked1)
+        self.seat_21.setText(self.getTeacherName(21))
+        self.seat_21.setStyleSheet(self.getStatusColor(21))
+        self.seat_22.clicked.connect(self.statusButtonClicked1)
+        self.seat_22.setText(self.getTeacherName(22))
+        self.seat_22.setStyleSheet(self.getStatusColor(22))
+        self.seat_23.clicked.connect(self.statusButtonClicked1)
+        self.seat_23.setText(self.getTeacherName(23))
+        self.seat_23.setStyleSheet(self.getStatusColor(23))
+        self.seat_24.clicked.connect(self.statusButtonClicked1)
+        self.seat_24.setText(self.getTeacherName(24))
+        self.seat_24.setStyleSheet(self.getStatusColor(2))
+        self.seat_25.clicked.connect(self.statusButtonClicked1)
+        self.seat_25.setText(self.getTeacherName(25))
+        self.seat_25.setStyleSheet(self.getStatusColor(25))
+        self.seat_26.clicked.connect(self.statusButtonClicked1)
+        self.seat_26.setText(self.getTeacherName(26))
+        self.seat_26.setStyleSheet(self.getStatusColor(26))
+        self.seat_27.clicked.connect(self.statusButtonClicked1)
+        self.seat_27.setText(self.getTeacherName(27))
+        self.seat_27.setStyleSheet(self.getStatusColor(27))
+        self.seat_28.clicked.connect(self.statusButtonClicked1)
+        self.seat_28.setText(self.getTeacherName(28))
+        self.seat_28.setStyleSheet(self.getStatusColor(28))
+        self.seat_29.clicked.connect(self.statusButtonClicked1)
+        self.seat_29.setText(self.getTeacherName(29))
+        self.seat_29.setStyleSheet(self.getStatusColor(29))
+        self.seat_30.clicked.connect(self.statusButtonClicked1)
+        self.seat_30.setText(self.getTeacherName(30))
+        self.seat_30.setStyleSheet(self.getStatusColor(30))
         self.__timer.stop()
         self.__timer = QTimer()
         self.__timer.timeout.connect(self.showTeacherRoom2)
         self.__timer.start(1000)
 
     def statusBar(self):
-        print('새로고침')
         my_date = date.today()
         day = calendar.day_name[my_date.weekday()]
         schedule = ""
-        for i in range(1,8+1):
+        for i in range(1,30+1):
             sql = "select * from teacherseat where seatnum=" + str(i)
             curs.execute(sql)
             rows = curs.fetchall()
@@ -131,7 +183,9 @@ class WindowClass(QMainWindow, main_ui):
                     schedule += day + "7"
                 elif (246 == strtime):
                     schedule += day + "2"
-                else:
+                elif strtime == 950 or 1040 or 1130 or 1220 or 1410  or 1500 or 1550: # 테스트떄 수정:
+                    row[schedule] = None
+                elif self.reset == 0: # 테스트떄 수정:
                     row[schedule] = None
                 mycursor = conn.cursor()
                 sql2 = "UPDATE teacherseat set status=%s where seatnum = %s"
@@ -168,7 +222,6 @@ class WindowClass(QMainWindow, main_ui):
                 str += "lightgreen"
             elif row['status'] != 1:
                 str += "red"
-        print(str)
         return str
         conn.close()
 
