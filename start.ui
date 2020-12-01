@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1389</width>
+    <width>1437</width>
     <height>679</height>
    </rect>
   </property>
@@ -75,20 +75,45 @@
    </palette>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>선생님! 어디가셨어요?</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="startButton">
     <property name="geometry">
      <rect>
-      <x>900</x>
-      <y>440</y>
+      <x>580</x>
+      <y>360</y>
       <width>291</width>
       <height>141</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>궁서</family>
+      <pointsize>35</pointsize>
+     </font>
+    </property>
     <property name="text">
      <string>시작</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>150</y>
+      <width>871</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>궁서</family>
+      <pointsize>50</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>선생님! 어디가셨어요?</string>
     </property>
    </widget>
   </widget>
@@ -97,7 +122,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1389</width>
+     <width>1437</width>
      <height>26</height>
     </rect>
    </property>

@@ -1,0 +1,11 @@
+[선생님! 어디가셨어요?]	
+2108 김수현, 2112 류현서
+
+- 미림여자정보과학고등학교 선생님의 일과를 보여주는 프로그램입니다. 
+
+- "Where_is_teacher\main.py"를 RUN하여 실행하면 됩니다. 
+
+- 시작 화면에서 버튼을 클릭하면 각 교무실 UI가 나옵니다. 선생님의 상태를 수정하기 위해서 비밀번호 '1111'을 입력하면 됩니다. 
+
+- 모든 .py 파일의 위쪽에 해당 코드 conn = pymysql.connect(host="localhost", port=3307, user='root', password='1111', db='python', charset="utf8")의
+  host, port, user, password를 PC 환경에 맞게 설정하여 실행해주세요.
