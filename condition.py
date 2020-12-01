@@ -15,8 +15,8 @@ my_date = date.today()
 day = calendar.day_name[my_date.weekday()]
 print(day)
 
-conn = pymysql.connect(host="192.168.0.9", port=3307, user='newuser', password='zxcdsaqwe7845', db='python', charset="utf8")
-# conn = pymysql.connect(host="localhost", port=3307, user='root', password='1111', db='python', charset="utf8")
+# conn = pymysql.connect(host="192.168.0.9", port=3307, user='newuser', password='zxcdsaqwe7845', db='python', charset="utf8")
+conn = pymysql.connect(host="localhost", port=3307, user='root', password='1111', db='python', charset="utf8")
 curs = conn.cursor(pymysql.cursors.DictCursor)
 
 # sql = "select t.name from tschedule AS t JOIN teacherseat AS tch WHERE t.id = tch.teacher"
@@ -39,6 +39,7 @@ class StatusClass(QDialog, status_ui) :
     day = calendar.day_name[my_date.weekday()]
     print(day)
     seat = 0
+    status = [0, 1, 2, 3, 4, 5]   #0: 수업 중, 1: 자리에 있음, 2: 회의 중, 3: 휴식 중, 4: 식사 중, 5: 잠시 자리 비움
     def __init__(self, seatnum) :
         super().__init__()
         self.setupUi(self)
@@ -46,7 +47,6 @@ class StatusClass(QDialog, status_ui) :
 
         sql = "select * from tschedule AS t JOIN teacherseat AS tch WHERE tch.seatnum = %s and tch.teacher = t.id"
         curs.execute(sql, (seatnum))
-        print(seatnum)
         rows = curs.fetchall()
         for row in rows:
             pass
@@ -65,11 +65,9 @@ class StatusClass(QDialog, status_ui) :
     def statusBar(self, seatnum):
         sql = "select * from tschedule AS t JOIN teacherseat AS tch WHERE tch.seatnum = %s and tch.teacher = t.id"
         curs.execute(sql, (seatnum))
-        print(seatnum)
         rows = curs.fetchall()
         for row in rows:
-            print(row['name'])
-        print(rows)
+            pass
 
         strtime = int(strftime("%H%M", localtime()))
         if(910<= strtime <= 950):
@@ -89,18 +87,23 @@ class StatusClass(QDialog, status_ui) :
         elif(106<strtime):
             self.schedule += day + "3"
 
-        mycursor = conn.cursor()
+        cursor1 = conn.cursor()
         sql2 = "UPDATE teacherseat set status=%s where seatnum = %s"
-
+        sql3 = "UPDATE teacherseat set message=%s where seatnum = %s"
         if(row[self.schedule] == None):
-            self.status.setText("자리에 있음")
-            print(row[self.schedule])
-            data = (1, seatnum)
-            mycursor.execute(sql2, data)
+            self.message.setText("자리에 있음")
+            data = (StatusClass.status[1], seatnum)
+            cursor1.execute(sql2, data)
+
+            data = ("자리에 있음", seatnum)
+            cursor1.execute(sql3, data)
         else:
-            self.status.setText(row[self.schedule])
-            data = (0, seatnum)
-            mycursor.execute(sql2, data)
+            self.message.setText(row[self.schedule])
+            data = (StatusClass.status[0], seatnum)
+            cursor1.execute(sql2, data)
+
+            data = (row[self.schedule], seatnum)
+            cursor1.execute(sql3, data)
 
         conn.commit()
 
