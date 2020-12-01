@@ -22,12 +22,10 @@ curs = conn.cursor(pymysql.cursors.DictCursor)
 class WindowClass(QMainWindow, main_ui):
     def __init__(self) :
         super().__init__()
-        self.reset = 0 # 상태 초기화 여부
         self.__timer = QTimer()
-        #self.resetInfo()
-        #self.statusBar()
+        self.resetInfo()
+        self.statusBar()
         self.setupUi(self)
-        self.reset = 1
         self.startButton.clicked.connect(self.showTeacherRoom1)
 
         #self.pushButton_3.move(100,100)
@@ -53,6 +51,7 @@ class WindowClass(QMainWindow, main_ui):
                 conn.commit()
             else:
                 continue
+
     def showTeacherRoom1(self):
         print('새로고침')
         strtime = int(strftime("%H%M", localtime()))
@@ -125,7 +124,7 @@ class WindowClass(QMainWindow, main_ui):
         self.seat_20.clicked.connect(self.statusButtonClicked1)
         self.seat_20.setText(self.getTeacherName(20))
         self.seat_20.setStyleSheet(self.getStatusColor(20))
-        self.__timer.stop()
+        # self.__timer.stop()
         self.__timer = QTimer()
         self.__timer.timeout.connect(self.showTeacherRoom1)
         self.__timer.start(1000)
@@ -179,9 +178,9 @@ class WindowClass(QMainWindow, main_ui):
         self.__timer.start(1000)
 
     def statusBar(self):
-        schedule = ""
         my_date = date.today()
         day = calendar.day_name[my_date.weekday()]
+        schedule = ""
         for i in range(1,30+1):
             sql = "select * from teacherseat where seatnum=" + str(i)
             curs.execute(sql)
@@ -189,7 +188,6 @@ class WindowClass(QMainWindow, main_ui):
             for row in rows:
                 pass
             if row['teacher'] != 0:
-                check = 0 # 비워줄좌석체크
                 sql = "select * from tschedule AS t JOIN teacherseat AS tch WHERE tch.seatnum = %s and tch.teacher = t.id"
                 curs.execute(sql, (i))
                 rows = curs.fetchall()
@@ -213,15 +211,15 @@ class WindowClass(QMainWindow, main_ui):
                     schedule += day + "7"
                 elif (246 == strtime):
                     schedule += day + "2"
-                elif strtime == 950 or strtime == 1040 or strtime == 1130 or strtime == 1220 \
-                    or strtime == 1410 or strtime == 1500 or strtime == 1550: # 테스트떄 수정
-                    row[schedule] = None
                 else:
+                    row[schedule] = None
+                if strtime == 950 or strtime == 1040 or strtime == 1130 or strtime == 1220 \
+                         or strtime == 1410 or strtime == 1500 or strtime == 1550:  # 테스트떄 수정
                     row[schedule] = None
 
                 mycursor = conn.cursor()
                 sql2 = "UPDATE teacherseat set status=%s where seatnum = %s"
-                print(row[schedule])
+
                 if (row[schedule] == None):
                     data = (1, i)
                     mycursor.execute(sql2, data)
@@ -254,11 +252,12 @@ class WindowClass(QMainWindow, main_ui):
                 str += "lightgreen"
             elif row['status'] != 1:
                 str += "red"
-        print(seatnum)
-        print(row['status'])
         print(str)
+        print(row['status'])
+        conn.commit()
         return str
         conn.close()
+
 
     def statusButtonClicked1(self):
         seat = str(self.sender().objectName()).split('_')
