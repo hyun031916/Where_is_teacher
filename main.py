@@ -29,10 +29,10 @@ class WindowClass(QMainWindow, main_ui):
         #self.pushButton_3.move(100,100)
 
     def showTeacherRoom1(self):
-        #self.statusBar()
+        self.statusBar()
         main_ui = uic.loadUi("teacherroom1.ui", self)
-        #self.leftButton.clicked.connect(self.showTeacherRoom2)
-        #self.rightButton.clicked.connect(self.showTeacherRoom2)
+        self.leftButton.clicked.connect(self.showTeacherRoom2)
+        self.rightButton.clicked.connect(self.showTeacherRoom2)
 
         self.seat_1.clicked.connect(self.statusButtonClicked1)
         self.seat_1.setText(self.getTeacherName(1))
@@ -64,7 +64,7 @@ class WindowClass(QMainWindow, main_ui):
         self.__timer.start(1000)
 
     def showTeacherRoom2(self):
-        #self.statusBar()
+        self.statusBar()
         main_ui = uic.loadUi("teacherroom2.ui", self)
 
         self.leftButton1.clicked.connect(self.showTeacherRoom1)
@@ -96,21 +96,18 @@ class WindowClass(QMainWindow, main_ui):
         self.__timer.timeout.connect(self.showTeacherRoom2)
         self.__timer.start(1000)
 
-
     def statusBar(self):
+        print('새로고침')
         my_date = date.today()
         day = calendar.day_name[my_date.weekday()]
         schedule = ""
         for i in range(1,8+1):
-            sql = "select * from teacherseat where seatnum=" + i
+            sql = "select * from teacherseat where seatnum=" + str(i)
             curs.execute(sql)
             rows = curs.fetchall()
             for row in rows:
                 pass
-            print(row['teacher'])
             if row['teacher'] != 0:
-                continue
-            else:
                 sql = "select * from tschedule AS t JOIN teacherseat AS tch WHERE tch.seatnum = %s and tch.teacher = t.id"
                 curs.execute(sql, (i))
                 rows = curs.fetchall()
@@ -118,10 +115,10 @@ class WindowClass(QMainWindow, main_ui):
                     pass
 
                 strtime = int(strftime("%H%M", localtime()))
-                if(910<= strtime <= 950):
-                    schedule+=day+"1"
-                elif(1000 <= strtime <= 1040):
-                    schedule+=day+"2"
+                if (910 <= strtime <= 950):
+                    schedule += day + "1"
+                elif (1000 <= strtime <= 1040):
+                    schedule += day + "2"
                 elif (1050 <= strtime <= 1130):
                     schedule += day + "3"
                 elif (1140 <= strtime <= 1220):
@@ -130,16 +127,16 @@ class WindowClass(QMainWindow, main_ui):
                     schedule += day + "5"
                 elif (1420 <= strtime <= 1500):
                     schedule += day + "6"
-                elif (1510 <= strtime <=1550):
+                elif (1510 <= strtime <= 1550):
                     schedule += day + "7"
-                elif(246==strtime):
+                elif (246 == strtime):
                     schedule += day + "2"
                 else:
                     row[schedule] = None
                 mycursor = conn.cursor()
                 sql2 = "UPDATE teacherseat set status=%s where seatnum = %s"
 
-                if(row[schedule] == None):
+                if (row[schedule] == None):
                     data = (1, i)
                     mycursor.execute(sql2, data)
                 else:
@@ -147,6 +144,8 @@ class WindowClass(QMainWindow, main_ui):
                     mycursor.execute(sql2, data)
 
                 conn.commit()
+            else:
+                continue
 
     def getTeacherName(self, seatnum):
         sql = "select * from tschedule AS t JOIN teacherseat AS tch WHERE tch.seatnum = %s and tch.teacher = t.id"
