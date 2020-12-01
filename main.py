@@ -17,6 +17,7 @@ curs = conn.cursor(pymysql.cursors.DictCursor)
 #화면을 띄우는데 사용되는 Class 선언
 class WindowClass(QMainWindow, main_ui):
     window = 0
+
     def __init__(self) :
         super().__init__()
         self.setupUi(self)
@@ -30,7 +31,6 @@ class WindowClass(QMainWindow, main_ui):
     def showTeacherRoom(self):
         main_ui = uic.loadUi("teacherroom.ui", self)
         self.seat_1.clicked.connect(self.statusButtonClicked1)
-        self.seat_1.setText()
         self.seat_2.clicked.connect(self.statusButtonClicked1)
         self.seat_3.clicked.connect(self.statusButtonClicked1)
         self.seat_4.clicked.connect(self.statusButtonClicked1)
@@ -51,6 +51,8 @@ class WindowClass(QMainWindow, main_ui):
     def showStatus(self,seatnum):
         self.statusWindow = StatusClass(seatnum)
         self.statusWindow.show()
+
+
 
 if __name__ == "__main__" :
     #QApplication : 프로그램을 실행시켜주는 클래스

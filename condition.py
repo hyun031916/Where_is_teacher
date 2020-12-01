@@ -7,6 +7,7 @@ import pymysql
 from datetime import date
 import calendar
 from time import localtime, strftime
+from edit_status import EditStatusClass
 
 #모듈 불러오기
 
@@ -29,28 +30,31 @@ curs = conn.cursor(pymysql.cursors.DictCursor)
 
 
 #UI 파일 연결
-form_class = uic.loadUiType("status_window.ui")[0]
+status_ui = uic.loadUiType("status_window.ui")[0]
 
 #화면을 띄우는데 사용되는 Class 선언
-class StatusClass(QDialog, form_class) :
+class StatusClass(QDialog, status_ui) :
     schedule = ""
     my_date = date.today()
     day = calendar.day_name[my_date.weekday()]
     print(day)
+    seat = 0
+    status = [0, 1, 2, 3, 4, 5]   #0: 수업 중, 1: 자리에 있음, 2: 회의 중, 3: 휴식 중, 4: 식사 중, 5: 잠시 자리 비움
     def __init__(self, seatnum) :
         super().__init__()
         self.setupUi(self)
         self.seatnum = 0
+
         sql = "select * from tschedule AS t JOIN teacherseat AS tch WHERE tch.seatnum = %s and tch.teacher = t.id"
         curs.execute(sql, (seatnum))
-        print(seatnum)
         rows = curs.fetchall()
         for row in rows:
-            print(row['name'])
-        print(rows)
+            pass
         self.teacherName.setText(row['name']+"선생님")
         # self.status.setText(self.statusBar)
         self.statusBar(seatnum)
+        self.seat = seatnum
+        self.editStatus.clicked.connect(self.editStatusButtonClicked)
 
     def setSeatNum(self, seatnum):
         self.seatnum = seatnum
@@ -61,11 +65,9 @@ class StatusClass(QDialog, form_class) :
     def statusBar(self, seatnum):
         sql = "select * from tschedule AS t JOIN teacherseat AS tch WHERE tch.seatnum = %s and tch.teacher = t.id"
         curs.execute(sql, (seatnum))
-        print(seatnum)
         rows = curs.fetchall()
         for row in rows:
-            print(row['name'])
-        print(rows)
+            pass
 
         strtime = int(strftime("%H%M", localtime()))
         if(910<= strtime <= 950):
@@ -85,22 +87,34 @@ class StatusClass(QDialog, form_class) :
         elif(106<strtime):
             self.schedule += day + "3"
 
-        mycursor = conn.cursor()
+        cursor1 = conn.cursor()
         sql2 = "UPDATE teacherseat set status=%s where seatnum = %s"
-
+        sql3 = "UPDATE teacherseat set message=%s where seatnum = %s"
         if(row[self.schedule] == None):
-            self.status.setText("자리에 있음")
-            print(row[self.schedule])
-            data = (1, seatnum)
-            mycursor.execute(sql2, data)
+            self.message.setText("자리에 있음")
+            data = (StatusClass.status[1], seatnum)
+            cursor1.execute(sql2, data)
+
+            data = ("자리에 있음", seatnum)
+            cursor1.execute(sql3, data)
         else:
-            self.status.setText(row[self.schedule])
-            data = (0, seatnum)
-            mycursor.execute(sql2, data)
+            self.message.setText(row[self.schedule])
+            data = (StatusClass.status[0], seatnum)
+            cursor1.execute(sql2, data)
+
+            data = (row[self.schedule], seatnum)
+            cursor1.execute(sql3, data)
 
         conn.commit()
 
-# if __name__ == '__main__':
+    def editStatusButtonClicked(self):
+        self.showStatus()
+
+    def showStatus(self):
+        self.statusWindow = EditStatusClass(self.seat)
+        self.statusWindow.show()
+
+# if __name__ == '_main_':
 #     # QApplication : 프로그램을 실행시켜주는 클래스
 #     app = QApplication(sys.argv)
 #
