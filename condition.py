@@ -7,7 +7,7 @@ import pymysql
 from datetime import date
 import calendar
 from time import localtime, strftime
-from edit_status import EditStatusClass
+from password import PasswordClass
 
 #모듈 불러오기
 
@@ -111,7 +111,8 @@ class StatusClass(QDialog, status_ui) :
         self.showStatus()
 
     def showStatus(self):
-        self.statusWindow = EditStatusClass(self.seat)
+        # self.statusWindow = EditStatusClass(self.seat)
+        self.statusWindow = PasswordClass(self.seat)
         self.statusWindow.show()
 
 # if __name__ == '_main_':
