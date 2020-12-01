@@ -120,7 +120,7 @@ class WindowClass(QMainWindow, main_ui):
         self.seat_20.clicked.connect(self.statusButtonClicked1)
         self.seat_20.setText(self.getTeacherName(20))
         self.seat_20.setStyleSheet(self.getStatusColor(20))
-        self.__timer.stop()
+        # self.__timer.stop()
         self.__timer = QTimer()
         self.__timer.timeout.connect(self.showTeacherRoom1)
         self.__timer.start(1000)
@@ -176,14 +176,23 @@ class WindowClass(QMainWindow, main_ui):
     def statusBar(self):
         my_date = date.today()
         day = calendar.day_name[my_date.weekday()]
+<<<<<<< HEAD
         for i in range(1, 30 + 1):
             schedule = ""
+=======
+        schedule = ""
+        for i in range(1,30+1):
+>>>>>>> 247554a3ab3e020044e6a8ead9bee6cc91a1cdbb
             sql = "select * from teacherseat where seatnum=" + str(i)
             curs.execute(sql)
             rows = curs.fetchall()
             for info in rows:
                 pass
+<<<<<<< HEAD
             if info['teacher'] != 0:
+=======
+            if row['teacher'] != 0:
+>>>>>>> 247554a3ab3e020044e6a8ead9bee6cc91a1cdbb
                 sql = "select * from tschedule AS t JOIN teacherseat AS tch WHERE tch.seatnum = %s and tch.teacher = t.id"
                 curs.execute(sql, (i))
                 rows = curs.fetchall()
@@ -205,6 +214,7 @@ class WindowClass(QMainWindow, main_ui):
                     schedule += day + "6"
                 elif (1510 <= strtime <= 1550):
                     schedule += day + "7"
+<<<<<<< HEAD
                 elif (1510 <= strtime <= 1550):
                     schedule += day + "7"
                 else:
@@ -215,6 +225,18 @@ class WindowClass(QMainWindow, main_ui):
                 mycursor = conn.cursor()
                 sql2 = "UPDATE teacherseat set status=%s where seatnum = %s"
                 sql3 = "UPDATE teacherseat set message=%s where seatnum = %s"
+=======
+                elif (246 == strtime):
+                    schedule += day + "2"
+                else:
+                    row[schedule] = None
+                if strtime == 950 or strtime == 1040 or strtime == 1130 or strtime == 1220 \
+                         or strtime == 1410 or strtime == 1500 or strtime == 1550:  # 테스트떄 수정
+                    row[schedule] = None
+
+                mycursor = conn.cursor()
+                sql2 = "UPDATE teacherseat set status=%s where seatnum = %s"
+>>>>>>> 247554a3ab3e020044e6a8ead9bee6cc91a1cdbb
 
                 if (row[schedule] == None):
                     data = (1, i)
@@ -254,9 +276,15 @@ class WindowClass(QMainWindow, main_ui):
                 str += "lightgreen"
             elif row['status'] != 1:
                 str += "red"
+<<<<<<< HEAD
+=======
+        print(str)
+        print(row['status'])
+>>>>>>> 247554a3ab3e020044e6a8ead9bee6cc91a1cdbb
         conn.commit()
         return str
         conn.close()
+
 
     def statusButtonClicked1(self):
         seat = str(self.sender().objectName()).split('_')
