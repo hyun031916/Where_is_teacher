@@ -9,8 +9,8 @@ import calendar
 from time import localtime, strftime
 
 
-conn = pymysql.connect(host="192.168.0.9", port=3307, user='newuser', password='zxcdsaqwe7845', db='python', charset="utf8")
-#conn = pymysql.connect(host="localhost", port=3307, user='root', password='1111', db='python', charset="utf8")
+# conn = pymysql.connect(host="192.168.0.9", port=3307, user='newuser', password='zxcdsaqwe7845', db='python', charset="utf8")
+conn = pymysql.connect(host="localhost", port=3307, user='root', password='1111', db='python', charset="utf8")
 curs = conn.cursor(pymysql.cursors.DictCursor)
 
 
@@ -23,13 +23,14 @@ class EditStatusClass(QDialog, edit_status_ui) :
     my_date = date.today()
     day = calendar.day_name[my_date.weekday()]
     print(day)
+    status = {0:"수업 중", 1:"자리에 있음", 2:"회의 중", 3: "휴식 중", 4: "식사 중", 5: "잠시 자리 비움"}
     def __init__(self, seatnum) :
         super().__init__()
         self.setupUi(self)
         self.addComboBox()
         # self.updateMessage()
         self.editStatus.clicked.connect(self.saveChanges)
-
+        self.seat = seatnum
 
         sql = "select * from tschedule AS t JOIN teacherseat AS tch WHERE tch.seatnum = %s and tch.teacher = t.id"
         curs.execute(sql, (seatnum))
@@ -40,28 +41,26 @@ class EditStatusClass(QDialog, edit_status_ui) :
         self.teacherName.setText(row['name'] + "선생님")
 
     def addComboBox(self):
-        self.status_comboBox.addItem("자리에 있음")
-        self.status_comboBox.addItem("수업하고 있음")
-        self.status_comboBox.addItem("쉬는 중임")
-        self.status_comboBox.addItem("점심시간임")
+        # 0: 수업 중, 1: 자리에 있음, 2: 회의 중, 3: 휴식 중, 4: 식사 중, 5: 잠시 자리 비움
+        for value in self.status.values():
+            self.status_comboBox.addItem(value)
 
     # def updateMessage(self):
     #     self.edit_message.setPlaceholderText("메세지를 입력하세요")
 
     def saveChanges(self, seat):
-        print(self.edit_message.toPlainText())
-
         sql = "UPDATE teacherseat set message=%s where seatnum = %s"
-        data = (self.edit_message.toPlainText, seat)
-        # mycursor.execute(sql2, data)
-        # curs.execute(sql, (seatnum))
-        # print(seatnum)
-        rows = curs.fetchall()
-        for row in rows:
-            pass
+        data = (self.edit_message.toPlainText(), self.seat)
         curs.execute(sql, data)
+        conn.commit()
 
-# if _name_ == 'main':
+        for key, value in self.status.items():
+            if(self.status_comboBox.currentText()==value):
+                sql = "UPDATE teacherseat set status = %s where seatnum = %s"
+                data = (key, self.seat)
+                curs.execute(sql, data)
+                conn.commit()
+# if __name__ == '_main_':
 #     # QApplication : 프로그램을 실행시켜주는 클래스
 #     app = QApplication(sys.argv)
 #

@@ -114,7 +114,7 @@ class StatusClass(QDialog, status_ui) :
         self.statusWindow = EditStatusClass(self.seat)
         self.statusWindow.show()
 
-# if _name_ == 'main':
+# if __name__ == '_main_':
 #     # QApplication : 프로그램을 실행시켜주는 클래스
 #     app = QApplication(sys.argv)
 #
