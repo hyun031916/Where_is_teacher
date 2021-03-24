@@ -15,6 +15,7 @@ main_ui = uic.loadUiType("start.ui")[0]
 
 # conn = pymysql.connect(host="192.168.0.9", port=3307, user='newuser', password='zxcdsaqwe7845', db='python',charset="utf8")
 conn = pymysql.connect(host="127.0.0.1", port=3307, user='root', password='1111', db='python', charset="utf8")
+
 curs = conn.cursor(pymysql.cursors.DictCursor)
 
 # 화면을 띄우는데 사용되는 Class 선언
@@ -120,7 +121,7 @@ class WindowClass(QMainWindow, main_ui):
         self.seat_20.clicked.connect(self.statusButtonClicked1)
         self.seat_20.setText(self.getTeacherName(20))
         self.seat_20.setStyleSheet(self.getStatusColor(20))
-        self.__timer.stop()
+        # self.__timer.stop()
         self.__timer = QTimer()
         self.__timer.timeout.connect(self.showTeacherRoom1)
         self.__timer.start(1000)
@@ -176,6 +177,7 @@ class WindowClass(QMainWindow, main_ui):
     def statusBar(self):
         my_date = date.today()
         day = calendar.day_name[my_date.weekday()]
+
         for i in range(1, 30 + 1):
             schedule = ""
             sql = "select * from teacherseat where seatnum=" + str(i)
@@ -184,6 +186,7 @@ class WindowClass(QMainWindow, main_ui):
             for info in rows:
                 pass
             if info['teacher'] != 0:
+            # if row['teacher'] != 0:
                 sql = "select * from tschedule AS t JOIN teacherseat AS tch WHERE tch.seatnum = %s and tch.teacher = t.id"
                 curs.execute(sql, (i))
                 rows = curs.fetchall()
@@ -215,6 +218,11 @@ class WindowClass(QMainWindow, main_ui):
                 mycursor = conn.cursor()
                 sql2 = "UPDATE teacherseat set status=%s where seatnum = %s"
                 sql3 = "UPDATE teacherseat set message=%s where seatnum = %s"
+                # elif (246 == strtime):
+                #     schedule += day + "2"
+
+                mycursor = conn.cursor()
+                sql2 = "UPDATE teacherseat set status=%s where seatnum = %s"
 
                 if (row[schedule] == None):
                     data = (1, i)
@@ -254,9 +262,12 @@ class WindowClass(QMainWindow, main_ui):
                 str += "lightgreen"
             elif row['status'] != 1:
                 str += "red"
+        print(str)
+        print(row['status'])
         conn.commit()
         return str
         conn.close()
+
 
     def statusButtonClicked1(self):
         seat = str(self.sender().objectName()).split('_')
